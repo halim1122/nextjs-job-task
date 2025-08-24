@@ -1,6 +1,6 @@
 # Sh🍔pDay - Food & Products Delivery Website
 
-A modern **Next.js** e-commerce style website for products and food delivery. Users can browse products, see details, and add them to cart. Admin can add products via dashboard.
+A modern **Next.js** e-commerce style website for see products and Bay now. Users can browse products, see details, and add them the product.Logged in user can add products via dashboard.
 
 ---
 
