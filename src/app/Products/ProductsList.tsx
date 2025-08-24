@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -20,15 +21,25 @@ export default function ProductsList() {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    setLoading(true);
-    fetch("https://my-app-server-coral.vercel.app/products")
-      .then((res) => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/items`, {
+          cache: "no-cache", 
+        });
         if (!res.ok) throw new Error("Failed to fetch products");
-        return res.json();
-      })
-      .then((data) => setProducts(data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+        const data = await res.json();
+        setProducts(data);
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   if (loading)
@@ -38,7 +49,8 @@ export default function ProductsList() {
       </div>
     );
 
-  if (error) return <div className="text-center text-red-500">{error}</div>;
+  if (error)
+    return <div className="text-center text-red-500 mt-10">{error}</div>;
 
   // Pagination Logic
   const totalPages = Math.ceil(products.length / itemsPerPage);
@@ -47,7 +59,7 @@ export default function ProductsList() {
 
   return (
     <div className="p-5 min-h-screen mt-20">
-      <h1 className="text-3xl font-bold mb-8 text-center">All Products</h1>
+      <h1 className="text-3xl font-bold mb-8 text-orange-500 text-center">All Products</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {currentProducts.map((p) => (
@@ -64,6 +76,7 @@ export default function ProductsList() {
         >
           Prev
         </button>
+
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <button
             key={page}
@@ -77,8 +90,11 @@ export default function ProductsList() {
             {page}
           </button>
         ))}
+
         <button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
           disabled={currentPage === totalPages}
           className="px-4 py-2 bg-orange-500 text-white rounded disabled:bg-gray-300"
         >

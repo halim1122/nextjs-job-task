@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 const deals = [
   {
@@ -33,7 +34,13 @@ const deals = [
 ];
 
 const handleOrder = (productName: string) => {
-  alert(`Ordered: ${productName}`);
+      Swal.fire({
+        icon: "success",
+        title: "Order successfull",
+        text: `This ${productName} is yours!`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
 };
 
 export default function BeastDealsHero() {

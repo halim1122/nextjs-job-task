@@ -49,14 +49,17 @@ A modern **Next.js** e-commerce style website for see products and Bay now. User
 ```bash
 git clone https://github.com/halim1122/nextjs-job-task.git
 cd nextjs-job-task
+
 2. Install dependencies
 npm install
 # or
 yarn install
+
 3. Set up environment variables
 Create a .env.local file in root:
 MONGODB_URI=your_mongodb_connection_string
 IMGBB_API_KEY=your_imgbb_api_key
+
 4. Run locally
 npm run dev
 # or

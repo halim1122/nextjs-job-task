@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import Swal from "sweetalert2"
 
 const featuredProduct = {
   _id: "6856491feeb5f26de603fe58",
@@ -18,11 +19,13 @@ const featuredProduct = {
 
 export default function Hero() {
   const handleOrder = () => {
-    if (featuredProduct.stock > 0) {
-      alert(`Ordered: ${featuredProduct.name}`)
-    } else {
-      alert("Sold Out this Product")
-    }
+   Swal.fire({
+           icon: "success",
+           title: "Order successfull",
+           text: `This ${featuredProduct.name} is yours!`,
+           timer: 2000,
+           showConfirmButton: false,
+         });
   }
 
   return (

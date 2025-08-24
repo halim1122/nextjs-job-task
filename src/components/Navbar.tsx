@@ -2,24 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Login from "./Login";
+import LoginButton from "./LoginButton";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
+  const { data: session } = useSession();
   const pathname = usePathname();
-const user = true;
 
-const navItems = [
-  { name: "Home", href: "/" },
-  { name: "Products", href: "/products" },
-  ...(user ? [{ name: "Add Product", href: "/dashboard/add-product" }] : []),
-];
+  const navItems = [
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/products" },
+    ...(session?.user?.email ? [{ name: "Add Product", href: "/products/add" }] : []),
+  ];
 
   return (
     <div className="fixed top-0 w-full z-50 bg-orange-400 shadow-md">
       <div className="flex justify-between items-center p-1 px-10">
         {/* Logo */}
         <div>
-          <p className="text-4xl text-white p-2 flex gap-0 items-center rounded-md font-bold space-y-0">
+          <p className="lg:text-4xl text-white p-2 flex gap-0 items-center rounded-md font-bold">
             Sh<span className="bg-white p-[1px] text-2xl rounded-full">🍔</span>pDay
           </p>
         </div>
@@ -44,9 +45,9 @@ const navItems = [
           })}
         </nav>
 
-        {/* Login */}
+        {/* Login Button */}
         <div>
-          <Login />
+          <LoginButton />
         </div>
       </div>
     </div>

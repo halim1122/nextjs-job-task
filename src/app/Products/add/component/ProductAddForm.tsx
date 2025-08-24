@@ -1,8 +1,8 @@
 "use client"
-
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import axios from "axios"
+import Swal from "sweetalert2"
 
 type ProductFormData = {
   name: string
@@ -50,9 +50,15 @@ export default function AddProduct() {
       }
 
       // Post to your backend
-      await axios.post("https://my-app-server-coral.vercel.app/products", product)
+      await axios.post(`/api/items`, product)
 
-      alert("Product added successfully!")
+      Swal.fire({
+              icon: "success",
+              title: "Added Product Successfull",
+              text: `This Product name ${product?.name}`,
+              timer: 2000,
+              showConfirmButton: false,
+            });
       reset()
     } catch (err) {
       console.error(err)
@@ -119,7 +125,6 @@ export default function AddProduct() {
           {...register("img", { required: true })}
           className="w-full p-2 border rounded"
         />
-
         <button
           type="submit"
           disabled={loading}
